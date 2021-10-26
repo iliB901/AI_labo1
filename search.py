@@ -102,7 +102,7 @@ def depthFirstSearch(problem):
 
         for position, direction, cost in problem.getSuccessors(currentNode):
             if position not in visited:
-                fringe.push((position, path + [direction]))
+                fringe.push((position, path + [direction])) #hallo
 
 
 def breadthFirstSearch(problem):
