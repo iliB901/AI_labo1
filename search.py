@@ -20,6 +20,7 @@ Pacman agents (in searchAgents.py).
 import util
 
 
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -122,6 +123,7 @@ def breadthFirstSearch(problem):
             if position not in visited and position not in (data[0] for data in fringe.list):
                 fringe.push((position, path + [direction]))
 
+
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
@@ -131,13 +133,13 @@ def uniformCostSearch(problem):
     while not fringe.isEmpty():
         currentNode, path = fringe.pop()
         visited.append(currentNode)
-
         if problem.isGoalState(currentNode):
             return path
 
         for position, direction, cost in problem.getSuccessors(currentNode):
             if position not in visited and position not in (data[2][0] for data in fringe.heap):
                 fringe.update((position, path + [direction]), problem.getCostOfActions(path + [direction]))
+
             elif position not in visited and position in (data[2][0] for data in fringe.heap):
                 for data in fringe.heap:
                     oldCost = problem.getCostOfActions(data[2][1])
@@ -158,7 +160,28 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.PriorityQueue()
+    visited = []
+    fringe.push((problem.getStartState(), []), 0)
+    while not fringe.isEmpty():
+        currentNode, path = fringe.pop()
+        visited.append(currentNode)
+        if problem.isGoalState(currentNode):
+            return path
+
+        for position, direction, cost in problem.getSuccessors(currentNode):
+            if position not in visited and position not in (data[2][0] for data in fringe.heap):
+                fringe.update((position, path + [direction]), problem.getCostOfActions(path + [direction])
+                              + heuristic(position, problem))
+
+            elif position not in visited and position in (data[2][0] for data in fringe.heap):
+                for data in fringe.heap:
+                    oldCost = problem.getCostOfActions(data[2][1])
+
+                newCost = problem.getCostOfActions(path + [direction]) + heuristic(position, problem)
+                if oldCost > newCost:
+                    fringe.update((position, path + [direction]), newCost)
+
 
 
 # Abbreviations
