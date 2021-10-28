@@ -295,14 +295,25 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.startingPosition
+
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        isGoal = self.corners.__contains__(state);
+
+        #visualisation
+        if isGoal and self.visualize:
+            self._visitedlist.append(state)
+            import __main__
+            if '_display' in dir(__main__):
+                if 'drawExpandedCells' in dir(__main__._display): #@UndefinedVariable
+                    __main__._display.drawExpandedCells(self._visitedlist) #@UndefinedVariable
+
+        return isGoal
 
     def getSuccessors(self, state):
         """
