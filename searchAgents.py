@@ -288,7 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        self.initialState = [0,0,0,0]
+        self.initialState = [0, 0, 0, 0]
 
     def getStartState(self):
         """
@@ -296,7 +296,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        return (self.startingPosition, self.initialState)
+        return self.startingPosition, self.initialState
 
     def isGoalState(self, state):
         """
@@ -340,11 +340,9 @@ class CornersProblem(search.SearchProblem):
 
                 if (nextx, nexty) in self.corners:
                     corner[self.corners.index((nextx,nexty))] = 1 # corner visited
-
-            nextState = ((nextx,nexty), corner)
-            cost = 1
-
-            successors.append((nextState, action,cost))
+                nextState = ((nextx, nexty), corner)
+                cost = 1
+                successors.append( (nextState, action, cost) )
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
