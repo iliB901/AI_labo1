@@ -386,9 +386,9 @@ def cornersHeuristic(state, problem):
     else:
         distanceFromCorners = []
 
-        for i, item in emurate(state[1]):
+        for i, item in enumerate(state[1]):
             if i == 0:
-                distanceFromCorners.append(manhattanDistance(state[0], corners[i]))
+                distanceFromCorners.append(1)
 
         return max(distanceFromCorners)
 
