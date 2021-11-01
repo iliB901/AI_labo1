@@ -20,6 +20,7 @@ Pacman agents (in searchAgents.py).
 import util
 
 
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -125,6 +126,20 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    fringe = util.PriorityQueue()
+    visited = []
+    fringe.push((problem.getStartState(), []),0)
+    while not fringe.isEmpty():
+        currentNode, path = fringe.pop()
+        visited.append(currentNode)
+
+        if problem.isGoalState(currentNode):
+            return path
+
+        for position, direction, cost in problem.getSuccessors(currentNode):
+            if position not in visited and position not in (data[2][0] for data in fringe.heap):
+                fringe.push((position, path + [direction]), problem.getCostOfActions(path + [direction]))
+
     util.raiseNotDefined()
 
 

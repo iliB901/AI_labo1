@@ -288,6 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.initialState = [0,0,0,0]
 
     def getStartState(self):
         """
@@ -295,14 +296,18 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return (self.startingPosition, self.initialState)
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        for i in state[1]:
+            if i == 0:
+                return False
+        return True # Alle hoeken zijn bezocht
+
 
     def getSuccessors(self, state):
         """
@@ -325,6 +330,21 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x,y = state[0]
+            corner = state[1][:] # [:] makes a shallow copy of the array, allowing you to modify your copy without damaging the original
+
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x +dx), int(y +dy)
+
+            if not self.walls[nextx][nexty]:
+
+                if (nextx, nexty) in self.corners:
+                    corner[self.corners.index((nextx,nexty))] = 1 # corner visited
+
+            nextState = ((nextx,nexty), corner)
+            cost = 1
+
+            successors.append((nextState, action,cost))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -360,7 +380,21 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+
+    from util import manhattanDistance
+
+    if problem.isGoalState(state):
+        return 0
+    else:
+        distanceFromCorners = []
+
+        for i, item in emurate(state[1]):
+            if i == 0:
+                distanceFromCorners.append(manhattanDistance(state[0], corners[i]))
+
+        return max(distanceFromCorners)
+
+
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
