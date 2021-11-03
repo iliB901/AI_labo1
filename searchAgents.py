@@ -384,8 +384,12 @@ def cornersHeuristic(state, problem):
     if problem.isGoalState(state):
         return 0
     else:
-
-        return 1
+        for i in state[1]:
+            if i == 0:
+                distance = manhattanDistance(state[0], corners[i])
+                return distance
+            else:
+                return 0
 
 
 
