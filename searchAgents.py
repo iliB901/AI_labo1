@@ -33,6 +33,7 @@ description for details.
 
 Good luck and happy searching!
 """
+from math import floor
 
 from game import Directions
 from game import Agent
@@ -378,19 +379,21 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-
     from util import manhattanDistance
-
     if problem.isGoalState(state):
         return 0
     else:
-        for i in state[1]:
-            if i == 0:
-                distance = manhattanDistance(state[0], corners[i])
-                return distance
-            else:
-                return 0
-
+        distance = []
+        n = 0
+        for count, value in enumerate(state[1]):
+            if value == 0:
+                distance.append(manhattanDistance(state[0], corners[count]))
+            elif value == 1:
+                n += 1
+        if n != 4:
+            return max(distance)
+        else:
+            return 0
 
 
 class AStarCornersAgent(SearchAgent):
