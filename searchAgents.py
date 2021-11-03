@@ -384,13 +384,8 @@ def cornersHeuristic(state, problem):
     if problem.isGoalState(state):
         return 0
     else:
-        distanceFromCorners = []
 
-        for i, item in enumerate(state[1]):
-            if i == 0:
-                distanceFromCorners.append(1)
-
-        return max(distanceFromCorners)
+        return 1
 
 
 
